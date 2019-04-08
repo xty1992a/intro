@@ -9,11 +9,11 @@ umd格式,可`<script>`和import引入使用.
 #### 安装
 js: `npm i @redbuck/intro`或`yarn add @redbuck/intro`
 
-css: 位于`@redbuck/image-uploader/lib/intro.css`
+css: 位于`@redbuck/intro/lib/intro.css`
 
 #### 使用
 ```
-const uploader = new ImageUploader(options)
+const intro = new Intro(options)
 ```
 
 options:
@@ -85,6 +85,7 @@ const intro = new Intro({
   ],
 })
 
+// if you did not listen this event, intro will auto next
 intro.on('before-next', async ({step, next, skip}) => {
   // do something
   console.log('before-next', step)
