@@ -5,6 +5,7 @@
 支持事件钩子并跳过步骤.
 umd格式,可`<script>`和import引入使用.
 
+[Live Code](https://codepen.io/xty1992a/pen/WWGdKX)
 
 #### 安装
 js: `npm i @redbuck/intro`或`yarn add @redbuck/intro`
@@ -41,6 +42,7 @@ before-next|{step, next, skip}|下一步之前,传入下一步step对象,调用n
 done|无|结束事件
 
 #### 示例
+查看static/demo.html获取全部详情
 ```javascript
 const intro = new Intro({
   playCount: 3,

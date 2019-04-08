@@ -4,25 +4,167 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
   <title>Title</title>
-  <script type="text/javascript" src="https://unpkg.com/@redbuck/image-uploader@0.0.5/lib/imageUploader.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/@redbuck/image-uploader@0.0.5/lib/imageUploader.css">
+  <script type="text/javascript" src="https://unpkg.com/@redbuck/intro@0.0.1/lib/intro.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@redbuck/intro@0.0.1/lib/intro.css">
+  <style>
+    body {
+      height: 100%;
+      background-color: #f7f7f7;
+      margin: 0;
+    }
+
+    header {
+      height: 100px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      background-color: #fff;
+      display: flex;
+      padding: 10px;
+      justify-content: space-between;
+    }
+
+    header div {
+      width: 100px;
+      background-color: #f0f0f0;
+    }
+
+    aside {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      width: 100px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      background-color: #fff;
+      padding-top: 110px;
+    }
+
+    aside .list {
+      padding: 10px;
+
+      margin: 0;
+    }
+
+    aside .item {
+      margin-bottom: 10px;
+      height: 40px;
+      background-color: #f0f0f0;
+      list-style: none;
+    }
+
+    article {
+      padding-left: 100px;
+    }
+
+    section {
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    section .block {
+      width: 240px;
+      height: 300px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      background-color: #fff;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-<button id="btn">按钮</button>
+
+
+<aside>
+  <ul class="list">
+    <li class="item" id="item1"></li>
+    <li class="item" id="item2"></li>
+    <li class="item" id="item3"></li>
+    <li class="item" id="item4"></li>
+    <!--<li class="item" id="item5"></li>-->
+  </ul>
+</aside>
+
+<article>
+
+  <header>
+    <div class="left" id="left"></div>
+    <div class="center" style="width: 200px;" id="center"></div>
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="block" id="block1"></div>
+    <div class="block" id="block2"></div>
+    <div class="block" id="block3"></div>
+    <!--<div class="block" id="block4"></div>-->
+    <div class="block" id="block5"></div>
+    <div class="block" id="block6"></div>
+  </section>
+</article>
 
 <script type="text/javascript">
-  var uploader = new ImageUploader({
-	width: 300,
-	height: 300,
-	el: document.getElementById('btn'),
+  const $ = e => document.querySelector(e)
+
+  const intro = new Intro({
+	playCount: 3,
+	steps: [
+	  {
+		el: $('#left'),
+		text: '点击这里,打开新世界大门!',
+	  },
+	  {
+		el: [$('#block1'), $('#block2'), $('#block3')],
+		text: '根据你想【赠送的奖励】,选择不同的活动类型',
+	  },
+	  {
+		el: $('#block4'),
+		text: '选择第5项活动',
+	  },
+	  {
+		el: $('#block6'),
+		text: '当你同时要赠送多种奖励时，请选择组合送吧！',
+	  },
+	  {
+		el: $('#item1'),
+		text: '点这里，可以查看和管理所有的活动1',
+	  },
+	  {
+		el: $('#item2'),
+		text: '点这里，可以查看和管理所有的活动2',
+	  },
+	  {
+		el: $('#item3'),
+		text: '点这里，可以查看和管理所有的活动3',
+	  },
+	  {
+		el: $('#item4'),
+		text: '点这里，可以查看和管理所有的活动4',
+	  },
+	  {
+		el: $('#item5'),
+		text: '点这里，可以查看和管理所有的活动5',
+	  },
+	],
   })
 
-  uploader.on('upload-error', err => {
-	console.log('upload-error', err)
+  const sleep = time => new Promise(resolve => setTimeout(resolve, time))
+
+  // 调用next,使流程继续,调用skip,跳过本次
+  intro.on('before-next', async ({step, next, skip}) => {
+	await sleep(300)
+	console.log('before-next', step)
+	if (step.el) {
+	  next()
+	}
+	else {
+	  skip()
+	}
   })
-  uploader.on('upload', res => {
-	console.log('upload success', res)
+
+  intro.on('done', () => {
+	console.log('over')
   })
+
 </script>
+
 </body>
 </html>
