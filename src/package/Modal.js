@@ -13,6 +13,9 @@ export default class Modal extends Component {
   get modalProps() {
 	if (!this.currentStep) return {}
 	let {el, text} = this.currentStep
+	if (el instanceof Function) {
+	  el = el()
+	}
 	let rect = {}
 	if (el instanceof Element) {
 	  rect = el.getBoundingClientRect()
@@ -42,13 +45,13 @@ export default class Modal extends Component {
 
   constructor(props) {
 	super(props);
-	this.step = 0
 
-	this.onStep()
+	this.step = -1
+	this.next()
   }
 
   onStep() {
-	if (!this.currentStep) {
+	if (this.step >= this.props.steps.length || !this.currentStep) {
 	  this.exit()
 	  return
 	}
@@ -66,13 +69,16 @@ export default class Modal extends Component {
 
   next = () => {
 	if (this.onWaiting) return
-	if (this.step === this.props.steps.length - 1) {
+	let nextStep = this.props.steps[this.step + 1]
+
+	if (!nextStep) {
 	  this.exit()
 	  return
 	}
 
 	this.onWaiting = true
-	this.props.onBeforeNext(this.props.steps[this.step + 1], () => {
+
+	this.props.onBeforeNext(nextStep, () => {
 	  this.onWaiting = false
 	  this.step++
 	  this.onStep()
@@ -121,9 +127,11 @@ export default class Modal extends Component {
 	switch (textPosition) {
 	  case 'bottom':
 		top = top + height + 70;
+		left = left + width / 4;
 		break
 	  case 'top':
 		top = top - 150;
+		left = left + width / 4;
 		break
 	  case 'right':
 		top = top + height / 2

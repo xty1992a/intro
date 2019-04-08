@@ -1,6 +1,7 @@
 .intro-container {
   background-color: transparent;
   position: fixed;
+  z-index: 1000;
   bottom: 0;
   right: 0;
   top: 0;
@@ -19,7 +20,7 @@
 }
 .intro-container .intro-modal {
   position: absolute;
-  box-shadow: 0 0 0 10000px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 10000px rgba(0, 0, 0, 0.8);
   transition: 0.3s;
 }
 .intro-container .intro-modal:after {

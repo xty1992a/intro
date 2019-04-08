@@ -9,8 +9,9 @@ const intro = new Intro({
   playCount: 3,
   steps: [
 	{
-	  el: $('#left'),
+	  el: () => $('#right'),
 	  text: '点击这里,打开新世界大门!',
+	  key: 0,
 	},
 	{
 	  el: [$('#block1'), $('#block2'), $('#block3')],
@@ -49,17 +50,28 @@ const intro = new Intro({
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time))
 
+/*
 // 调用next,使流程继续,调用skip,跳过本次
 intro.on('before-next', async ({step, next, skip}) => {
+  if (step.hasOwnProperty('key')) {
+	const el = document.createElement('div')
+	el.id = 'right'
+	el.className = 'right'
+	document.getElementById('head').appendChild(el)
+  }
   await sleep(300)
-  console.log('before-next', step)
-  if (step.el) {
+  let el = step.el
+  if (el instanceof Function) {
+	el = el()
+  }
+  if (el) {
 	next()
   }
   else {
 	skip()
   }
 })
+*/
 
 intro.on('done', () => {
   console.log('over')

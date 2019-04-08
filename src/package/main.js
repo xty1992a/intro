@@ -52,12 +52,22 @@ export default class Intro extends EmitAble {
 	  ...opt,
 	}
 
-	if (storage.getItem(this.$options.storageKey) >= this.$options.playCount) {
+	let count = storage.getItem(this.$options.storageKey) || 0
+
+	if (count >= this.$options.playCount) {
 	  console.log('intro play count is over the limit !')
 	  return
 	}
 
-	this.show()
+	setTimeout(() => {
+	  this.onBeforeNext(this.$options.steps[0], () => {
+		console.log('first show', this.$options.steps[0].el())
+		this.show()
+	  }, () => {
+		this.$options.steps.splice(0, 1)
+		this.show()
+	  })
+	}, 20)
   }
 
   onBeforeNext = (step, next, skip) => {
@@ -86,6 +96,7 @@ export default class Intro extends EmitAble {
   show() {
 	const el = this.$el = document.createElement('div');
 	document.body.appendChild(el);
+	this.hide()
 	render(<Modal {...this.$options}
 				  onBeforeNext={this.onBeforeNext}
 				  onDone={this.onDone}

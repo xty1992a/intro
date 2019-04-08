@@ -26,7 +26,10 @@ stepCount|`Number`|1|播放次数
 storageKey|`String`|'intro_play_count'|标识播放次数
 
 steps为一个成员为对象(step)的数组.对象必须包含el,text字段
-其中,el字段应为DOM对象,或DOM对象组成的数组,引导窗将聚焦这个(些)DOM围合成的矩形.
+
+其中,el字段应为DOM对象,或DOM对象组成的数组,或者是返回前述类型的函数.
+
+引导窗将聚焦这个(些)DOM围合成的矩形.
 text字段将自动排布在剩余方向中,最大的一个.
 
 
