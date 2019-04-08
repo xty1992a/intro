@@ -2,8 +2,8 @@
   "name": "@redbuck/intro",
   "version": "0.0.1",
   "description": "Step-by-step guide ",
-  "main": "lib/imageUploader.js",
-  "unpkg": "lib/imageUploader.js",
+  "main": "lib/intro.js",
+  "unpkg": "lib/intro.js",
   "scripts": {
     "pub": "npm publish --access public",
     "prepublishOnly": "npm run build",
@@ -12,23 +12,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xty1992a/imageUploader.git"
+    "url": "git+https://github.com/xty1992a/intro.git"
   },
   "files": [
     "src",
-    "lib"
+    "lib",
+    "index.html"
   ],
   "keywords": [
-    "crop",
-    "image",
-    "upload"
+    "introduction",
+    "step"
   ],
   "author": "TY-xie",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xty1992a/imageUploader/issues"
+    "url": "https://github.com/xty1992a/intro/issues"
   },
-  "homepage": "https://github.com/xty1992a/imageUploader#readme",
+  "homepage": "https://github.com/xty1992a/intro#readme",
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
