@@ -10,6 +10,8 @@ export default class Modal extends Component {
 	textPosition: 'bottom',
   }
 
+  modalLeftRect = {}
+
   get modalProps() {
 	if (!this.currentStep) return {}
 	let {el, text} = this.currentStep
@@ -21,7 +23,7 @@ export default class Modal extends Component {
 	  rect = el.getBoundingClientRect()
 	}
 	else if (Array.isArray(el)) {
-	  let {clientWidth, clientHeight} = document.documentElement
+	  let {clientWidth, clientHeight} = this
 	  let left = clientWidth, right = 0, top = clientHeight, bottom = 0
 	  el.forEach(dom => {
 		let r = dom.getBoundingClientRect()
@@ -45,7 +47,8 @@ export default class Modal extends Component {
 
   constructor(props) {
 	super(props);
-
+	this.clientWidth = document.documentElement.clientWidth
+	this.clientHeight = document.documentElement.clientHeight
 	this.step = -1
 	this.next()
   }
@@ -102,10 +105,10 @@ export default class Modal extends Component {
   }
 
   getTextPosition() {
-	let {clientWidth, clientHeight} = document.documentElement
+	let {clientWidth, clientHeight} = this
 	let {right, bottom, left, top} = this.modalProps
 
-	const map = {
+	const map = this.modalLeftRect = {
 	  left, top, right: clientWidth - right, bottom: clientHeight - bottom,
 	}
 	const keys = Object.keys(map)
@@ -124,33 +127,40 @@ export default class Modal extends Component {
 	let textPosition = this.state.textPosition
 	let {width, height, left, top} = this.modalProps
 	let transform = ''
+	let right = 'auto', bottom = 'auto'
+
 	switch (textPosition) {
 	  case 'bottom':
-		top = top + height + 70;
-		left = left + width / 4;
+		top = top + height + 20;
+		// bottom = top + height + 20
+		// top = 'auto'
 		break
 	  case 'top':
 		top = top - 150;
-		left = left + width / 4;
 		break
 	  case 'right':
-		top = top + height / 2
-		left = left + width + 70
+		left = left + width + 20
 		break
 	  case 'left':
-		top = top + height / 2
-		left = left - 80
-		transform = 'translate3d(-100%,-.5em,0)'
+		left = left - 260
 		break
 	}
+
+	console.log(top, left, bottom, right)
+	top = Math.min(Math.max(top, 0), this.clientHeight - 160)
+	left = Math.min(Math.max(left, 0), this.clientWidth - 240)
+
+	console.log(top, left, bottom, right)
 
 	this.setState({
 	  textPosition,
 	  textStyle: `
 	  	transform: ${transform};
-	  	top: ${top}px;
-	  	left: ${left}px;
-	  	color: #fff;
+	  	width: ${240}px;
+	  	top: ${top === 'auto' ? 'auto' : top + 'px'};
+	  	left: ${left === 'auto' ? 'auto' : left + 'px'};
+	  	bottom: ${bottom === 'auto' ? 'auto' : bottom + 'px'};
+	  	right: ${right === 'auto' ? 'auto' : right + 'px'};
 	  `,
 	})
   }
@@ -200,13 +210,15 @@ export default class Modal extends Component {
 
   render(props, state, context) {
 	return <div class="intro-container">
-	  <div className={`intro-modal arrow__${this.state.textPosition}`} style={this.state.style} onClick={this.props.onClickModal}>
+	  <div className={`intro-modal`} style={this.state.style} onClick={this.props.onClickModal}>
 	  </div>
 	  {/*<div className="man" style={this.state.manStyle}></div>*/}
-	  <div class="text" style={this.state.textStyle}>
+	  <div class={`text arrow arrow__${this.state.textPosition}`} style={this.state.textStyle}>
 		<p>{this.state.text}</p>
-		<button onClick={this.exit}>跳过</button>
-		<button onClick={this.next} class="next">继续</button>
+		<div className="btn-wrap">
+		  <button onClick={this.exit}>跳过</button>
+		  <button onClick={this.next} class="next">继续</button>
+		</div>
 	  </div>
 	</div>
   }

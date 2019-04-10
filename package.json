@@ -1,6 +1,6 @@
 {
   "name": "@redbuck/intro",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Step-by-step guide ",
   "main": "lib/intro.js",
   "unpkg": "lib/intro.js",
